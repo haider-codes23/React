@@ -1,7 +1,7 @@
 //import fragments
 //import { Fragment } from "react";
 function ListGroup() {
-  const items = [
+  let items = [
     'New York',
     "San francisco",
     "Tokyo",
@@ -9,9 +9,20 @@ function ListGroup() {
     "Paris"
   ];
 
+  items = [];
+
+  // Conditional rendering
+  // if (items.length === 0) {
+  //   return <><h1>List</h1><p>No items found</p></>;
+  // }
+  // Rendering List
+
+  // const message = items.length === 0 ? <p>No items found</p> : null;
+  const message = items.length === 0 && <p>No items Found</p>;
   return (
     <>
       <h1>List</h1>
+      {message}
       <ul className="list-group">
         {items.map(item =>
            <li key={item}>{item}</li>)}
