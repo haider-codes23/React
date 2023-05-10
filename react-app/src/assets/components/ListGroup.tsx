@@ -1,8 +1,14 @@
 //import fragments
 //import { Fragment } from "react";
 import { MouseEvent, useState } from "react";
-function ListGroup() {
-  let items = ["New York", "San francisco", "Tokyo", "London", "Paris"];
+
+interface props {
+  items: string[];
+  heading: string;
+}
+// In the parameter of ListGroup component we are destructuring our props object{props: props}
+function ListGroup({items, heading}: props) {
+  // let items = ["New York", "San francisco", "Tokyo", "London", "Paris"];
 
   //items = [];
 
@@ -23,7 +29,7 @@ function ListGroup() {
 
   return (
     <>
-      <h1>List</h1>
+      <h1>{heading}</h1>
       {message}
       <ul className="list-group">
         {items.map((item, index) => (

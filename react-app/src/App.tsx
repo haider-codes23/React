@@ -12,7 +12,11 @@ import ListGroup from "./assets/components/ListGroup";
 // export default App;
 
 function App() {
-  return <div><ListGroup></ListGroup></div>;
+  let items = ["New York", "San francisco", "Tokyo", "London", "Paris"];
+
+  return <div>
+            <ListGroup items={items} heading={"Cities"}></ListGroup>
+          </div>;
 }
 
 export default App;
