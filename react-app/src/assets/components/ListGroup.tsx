@@ -5,9 +5,10 @@ import { MouseEvent, useState } from "react";
 interface props {
   items: string[];
   heading: string;
+  onSelectItem: (item: string) => void;
 }
 // In the parameter of ListGroup component we are destructuring our props object{props: props}
-function ListGroup({items, heading}: props) {
+function ListGroup({items, heading, onSelectItem}: props) {
   // let items = ["New York", "San francisco", "Tokyo", "London", "Paris"];
 
   //items = [];
@@ -40,7 +41,10 @@ function ListGroup({items, heading}: props) {
                 : "list-group-item"
             }
             key={item}
-            onClick={() => {setSelectedIndex(index)}}
+            onClick={() => {
+              setSelectedIndex(index);
+              onSelectItem(item);
+            }}
           >
             {item}
           </li>
