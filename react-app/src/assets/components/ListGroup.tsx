@@ -1,7 +1,22 @@
 //import fragments
 //import { Fragment } from "react";
 import { MouseEvent, useState } from "react";
-import styles from './ListGroup.module.css';
+// import styles from './ListGroup.module.css';
+// import './ListGroup.css';
+import styled from 'styled-components';
+
+const UL = styled.ul`
+  list-stlye: none;
+  padding: 0;
+`
+
+interface ListItemProps {
+  active: boolean;
+}
+const LI = styled.li<ListItemProps>`
+  padding: 5px 0;
+  background: ${props => props.active ? 'blue' : 'none'};
+`
 
 interface props {
   items: string[];
@@ -33,14 +48,10 @@ function ListGroup({items, heading, onSelectItem}: props) {
     <>
       <h1>{heading}</h1>
       {message}
-      <ul className={[styles.ListGroup, styles.container].join(' ')}>
+      <UL>
         {items.map((item, index) => (
-          <li
-            className={
-              selectedIndex === index
-                ? "list-group-item active"
-                : "list-group-item"
-            }
+          <LI
+            active={index === selectedIndex}
             key={item}
             onClick={() => {
               setSelectedIndex(index);
@@ -48,9 +59,9 @@ function ListGroup({items, heading, onSelectItem}: props) {
             }}
           >
             {item}
-          </li>
+          </LI>
         ))}
-      </ul>
+      </UL>
     </>
   );
 }
