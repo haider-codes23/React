@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 // Accessing the input fields using State Hooks
 const Form = () => {
   // const form = useForm();
-  const {register, handleSubmit} = useForm();
+  const {register, handleSubmit, formState: {errors}} = useForm();
   console.log(register('name'));
   
   // const handleSubmission = (event: FormEvent) => {
@@ -16,7 +16,9 @@ const Form = () => {
     <form onSubmit={handleSubmit((data) => console.log(data))}>
       <div className="mb-3">
         <label htmlFor="name" className="form-label">Name</label>
-        <input id='name' {...register('name')} className="form-control"></input>
+        <input id='name' {...register('name', {required: true,  minLength: 3})} className="form-control"></input>
+        {errors.name?.type === 'required' && <p>The name field is required!</p>}
+        {errors.name?.type === 'minLength' && <p>The name must be atleast 3 charcters</p>}
       </div>
       <div className="mb-3">
         <label htmlFor="age" className="form-label">Age</label>
