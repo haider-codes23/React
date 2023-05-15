@@ -8,7 +8,8 @@ import Button from "./assets/components/Button";
 import { useEffect, useRef, useState } from "react";
 import Form from "./assets/components/Form";
 import ProductList from "./assets/components/ProductList";
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, CanceledError } from 'axios';
+import { Controller, useController } from "react-hook-form";
 // import './App.css';
 
 // function App() {
@@ -37,25 +38,28 @@ interface User {
 function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState('');
+  const [isLoading, setLoading] = useState(false);
   useEffect(() => {
-
-    
-    const fetchUsers =  async() => {
-      try {
-        const response = await axios.get<User[]>('https://jsonplaceholder.typicode.com/users')
-        setUsers(response.data)
-      }
-      catch (err) {
-        setError((err as AxiosError).message);
-      }
-    }
-    fetchUsers();
+    const controller = new AbortController();
+    setLoading(true);
+    axios.get<User[]>('https://jsonplaceholder.typicode.com/users', {signal: controller.signal})
+    .then((Response) => {
+      setUsers(Response.data);
+      setLoading(false);
+    })
+    .catch(err => {
+      if(err instanceof CanceledError) return;
+      setError(err.message);
+      setLoading(false);
+    });
     // .then((Response) => setUsers(Response.data))
     // .catch(err => setError(err.message));
+    return () => controller.abort();
   }, [])
   return (
     <>
       {error && <p className="text-danger">{error}</p>}
+      {isLoading && <div className="spinner-border"></div>}
       <ul>
         {users.map(user => <li key={user.id}>{user.name}</li>)}
       </ul>
